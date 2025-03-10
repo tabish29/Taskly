@@ -28,6 +28,9 @@ out/
 # Spring Boot specific files
 spring-boot-devtools/
 
+# Ignore volumes directory
+volumes/
+
 # Temporary files
 *.swp
 *~
