@@ -1,0 +1,33 @@
+# Gradle
+.gradle/
+build/
+!build/libs/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+
+# Logs
+*.log
+*.log.*
+
+# IntelliJ specific files
+out/
+
+# Java class files
+*.class
+
+
+# Spring Boot specific files
+spring-boot-devtools/
+
+# Temporary files
+*.swp
+*~
