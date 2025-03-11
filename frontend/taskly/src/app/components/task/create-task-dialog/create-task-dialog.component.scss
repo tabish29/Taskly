@@ -59,6 +59,10 @@ button[color="primary"]:hover {
   background-color: #388e3c;
 }
 
+mat-form-field input {
+  padding: 10px 0px; 
+}
+
 @media (max-width: 600px) {
   .mat-dialog-container {
       width: 90%;
