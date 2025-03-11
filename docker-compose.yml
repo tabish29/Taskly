@@ -24,6 +24,16 @@ services:
     ports:
       - "8080:8080"
 
+  angular:
+    build:  ./frontend/taskly
+    container_name: frontendTaskly
+    depends_on:
+      - app
+    networks:
+      - tasklynetwork
+    ports:
+      - "4201:4200"
+
 networks:
   tasklynetwork:
     driver: bridge
