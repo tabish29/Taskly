@@ -35,7 +35,7 @@ export class TaskComponent {
     this.taskService.getAllTasks().subscribe(
       (data) => {
         this.tasks = data;
-        this.filteredTasks = [...this.tasks]; 
+        this.applyFilter();
       },
       (error) => {
         console.error('Errore nel caricamento dei task', error);
