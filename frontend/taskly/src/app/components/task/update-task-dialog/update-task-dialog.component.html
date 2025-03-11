@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Aggiorna Attività</h2>
+<div mat-dialog-content>
+  <form [formGroup]="taskForm">
+    <mat-form-field class="full-width">
+      <mat-label>Titolo</mat-label>
+      <input matInput formControlName="title" placeholder="Inserisci il titolo">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Descrizione</mat-label>
+      <textarea matInput formControlName="description" placeholder="Inserisci la descrizione"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Scadenza</mat-label>
+      <input matInput type="date" formControlName="dueDate">
+    </mat-form-field>
+
+    <mat-checkbox formControlName="completed">Completato</mat-checkbox>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Annulla</button>
+  <button mat-button color="primary" (click)="onSave()">Salva</button>
+</div>

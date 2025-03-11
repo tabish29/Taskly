@@ -1,0 +1,40 @@
+/* Stile generale del dialog */
+mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+  }
+  
+  mat-form-field {
+    width: 100%;  
+  }
+  
+  mat-checkbox {
+    margin-top: 20px;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+  }
+  
+  button.mat-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+  
+  button.mat-button[color='primary'] {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.mat-button[color='primary']:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+  

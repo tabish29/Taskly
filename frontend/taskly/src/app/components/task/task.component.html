@@ -1,5 +1,5 @@
 <div class="task-container">
-    <h2>Gestisci Task</h2>
+    <h2>Gestisci Attività</h2>
   
     <div class="task-actions">
       <button mat-raised-button color="primary" (click)="openDialog()">Crea Nuovo Task</button>
@@ -15,6 +15,7 @@
         </div>
   
         <div class="actions">
+          <button mat-raised-button color="warn" (click)="openUpdateDialog(task)">Aggiorna</button>
           <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Elimina</button>
         </div>
       </div>

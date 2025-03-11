@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -18,6 +19,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { TaskComponent } from './components/task/task.component';
 import { CreateTaskDialogComponent } from './components/task/create-task-dialog/create-task-dialog.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { UpdateTaskDialogComponent } from './components/task/update-task-dialog/update-task-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     NotFoundComponent,
     TaskComponent,
     CreateTaskDialogComponent,
-    HomePageComponent
+    HomePageComponent,
+    UpdateTaskDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCheckboxModule
   ],
   providers: [
     provideClientHydration(),

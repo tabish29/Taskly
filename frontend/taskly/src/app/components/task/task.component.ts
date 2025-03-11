@@ -4,6 +4,7 @@ import { TaskService } from '../../services/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateTaskDialogComponent } from './create-task-dialog/create-task-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dialog.component';
 
 @Component({
   selector: 'app-task',
@@ -52,10 +53,24 @@ export class TaskComponent {
     );
   }
 
+  updateTask(task: Task): void {
+    this.taskService.updateTask(task.id,task).subscribe(
+      (response) => {
+        this.loadTasks();
+        console.log('Task aggiornato con successo', response);
+        this.showErrorSnackbar('Task aggiornato con successo');    
+      },
+      (error) => {
+        console.error('Errore nell\'aggiornamento del task', error);
+      }
+    );
+  }
+
   deleteTask(id: number): void {
     this.taskService.deleteTask(id).subscribe(
       () => {
-        this.tasks = this.tasks.filter(task => task.id !== id);  
+        this.loadTasks();
+        this.showErrorSnackbar('Attività eliminata con successo!');  
       },
       (error) => {
         console.error('Errore nell\'eliminazione del task', error);
@@ -69,7 +84,7 @@ export class TaskComponent {
         console.log(response);
       },
       (error) => {
-        console.error('Errore nell\'aggiungere categorie', error);
+        console.error('Errore nell\'addizione delle categorie', error);
       }
     );
   }
@@ -87,7 +102,8 @@ export class TaskComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
-      width: '400px',
+      width: '600px',
+      height: '500px',
       backdropClass: 'dialog-backdrop',
       data: {}
     });
@@ -97,13 +113,27 @@ export class TaskComponent {
         this.taskService.createTask(result).subscribe(
           (response) => {
             console.log('Task aggiunta con successo', response);
+            this.loadTasks();
           },
           (error) => {
             console.error('Errore durante l\'aggiunta della task', error);
             this.showErrorSnackbar(error.error.message)
           }
         );
-        //this.tasks.push(result);
+      }
+    });
+  }
+
+  openUpdateDialog(task: Task): void {
+    const dialogRef = this.dialog.open(UpdateTaskDialogComponent, {
+      width: '600px',
+      height: '500px',
+      data: task  
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateTask(result);
       }
     });
   }
