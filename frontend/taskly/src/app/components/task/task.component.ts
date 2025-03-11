@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Task } from '../../models/Task';
 import { TaskService } from '../../services/task.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateTaskDialogComponent } from './create-task-dialog/create-task-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task',
@@ -12,10 +15,17 @@ export class TaskComponent {
   tasks: Task[] = [];
   newTask: Task = new Task(0, '', '', false, '', []); 
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService,private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadTasks();
+  }
+
+  showErrorSnackbar(message: any): void {
+    this.snackBar.open(message, 'Chiudi', {
+      duration: 3000,
+      panelClass: ['error-snackbar']      
+    });
   }
 
   loadTasks(): void {
@@ -73,6 +83,29 @@ export class TaskComponent {
         console.error('Errore nella rimozione della categoria', error);
       }
     );
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
+      width: '400px',
+      backdropClass: 'dialog-backdrop',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.createTask(result).subscribe(
+          (response) => {
+            console.log('Task aggiunta con successo', response);
+          },
+          (error) => {
+            console.error('Errore durante l\'aggiunta della task', error);
+            this.showErrorSnackbar(error.error.message)
+          }
+        );
+        //this.tasks.push(result);
+      }
+    });
   }
 
 }

@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Aggiungi Task</h2>
+<div mat-dialog-content>
+  <mat-form-field class="full-width">
+    <mat-label>Titolo</mat-label>
+    <input matInput [(ngModel)]="task.title" placeholder="Inserisci il titolo">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Descrizione</mat-label>
+    <textarea matInput [(ngModel)]="task.description" placeholder="Inserisci la descrizione"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Scadenza</mat-label>
+    <input matInput type="date" [(ngModel)]="task.dueDate">
+  </mat-form-field>
+
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annulla</button>
+  <button mat-button color="primary" (click)="saveTask()">Salva</button>
+</div>
+
