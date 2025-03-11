@@ -14,7 +14,9 @@ import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dial
 export class TaskComponent {
 
   tasks: Task[] = [];
+  filteredTasks: Task[] = [];
   newTask: Task = new Task(0, '', '', false, '', []); 
+  filterStatus: string = '';
 
   constructor(private taskService: TaskService,private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
@@ -33,6 +35,7 @@ export class TaskComponent {
     this.taskService.getAllTasks().subscribe(
       (data) => {
         this.tasks = data;
+        this.filteredTasks = [...this.tasks]; 
       },
       (error) => {
         console.error('Errore nel caricamento dei task', error);
@@ -136,6 +139,16 @@ export class TaskComponent {
         this.updateTask(result);
       }
     });
+  }
+
+  applyFilter(): void {
+    if (this.filterStatus === 'completed') {
+      this.filteredTasks = this.tasks.filter(task => task.completed);
+    } else if (this.filterStatus === 'not-completed') {
+      this.filteredTasks = this.tasks.filter(task => !task.completed);
+    } else {
+      this.filteredTasks = [...this.tasks]; 
+    }
   }
 
 }

@@ -4,9 +4,18 @@
     <div class="task-actions">
       <button mat-raised-button color="primary" (click)="openDialog()">Crea Nuovo Task</button>
     </div>
+
+    <mat-form-field>
+        <mat-label>Filtro per Stato</mat-label>
+        <mat-select [(ngModel)]="filterStatus" (selectionChange)="applyFilter()">
+          <mat-option value="">Tutte</mat-option>
+          <mat-option value="completed">Completato</mat-option>
+          <mat-option value="not-completed">Non Completato</mat-option>
+        </mat-select>
+      </mat-form-field>
   
     <div class="task-list">
-      <div *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed, 'not-completed': !task.completed}">
+      <div *ngFor="let task of filteredTasks" class="task-item" [ngClass]="{'completed': task.completed, 'not-completed': !task.completed}">
         <div class="task-details">
           <h3>{{ task.title }}</h3>
           <p>{{ task.description }}</p>
