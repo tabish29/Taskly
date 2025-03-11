@@ -1,0 +1,23 @@
+<div class="task-container">
+    <h2>Gestisci Task</h2>
+  
+    <div class="task-actions">
+      <button mat-raised-button color="primary" (click)="createTask()">Crea Nuovo Task</button>
+    </div>
+  
+    <div class="task-list">
+      <div *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed, 'not-completed': !task.completed}">
+        <div class="task-details">
+          <h3>{{ task.title }}</h3>
+          <p>{{ task.description }}</p>
+          <p><strong>Scadenza:</strong> {{ task.dueDate | date:'short' }}</p>
+          <p><strong>Completato:</strong> {{ task.completed ? 'Sì' : 'No' }}</p>
+        </div>
+  
+        <div class="actions">
+          <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Elimina</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
