@@ -1,0 +1,113 @@
+  .category-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .loading {
+    color: blue;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .edit-btn {
+    background-color: orange;
+    color: white;
+  }
+
+  .edit-btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .delete-btn {
+    background-color: red;
+    color: white;
+  }
+
+  .delete-btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content {
+    text-align: center;
+  }
+  
+  .modal button {
+    margin: 5px;
+  }
+
+  .add-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .add-btn:active {
+    transform: scale(0.98);
+  }
+  
+  
+
+::ng-deep .error-snackbar  {
+  background-color: #d32f2f; 
+  color: white ;              
+  font-size: 16px ;          
+  font-weight: bold ;         
+  border-radius: 8px ;        
+  padding: 16px ;           
+}
+
+::ng-deep .error-snackbar button {
+  color: #ffc107 !important; 
+  font-weight: bold !important; 
+}
+
+
+

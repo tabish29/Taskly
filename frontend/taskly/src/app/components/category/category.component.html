@@ -1,1 +1,20 @@
-<h1>Ciao funziono</h1>
+<div class="category-container">
+    <h2>Categorie</h2>
+
+    <button (click)="addCategory()" class="add-btn">Aggiungi Categoria</button>
+  
+    <ul *ngIf="categories.length > 0">
+      <li *ngFor="let category of categories" class="category-item">
+        <span>{{ category.name }}</span>
+  
+        <div class="actions">
+          <button (click)="editCategory(category)" class="edit-btn">Modifica</button>
+          <button (click)="deleteCategory(category.id)" class="delete-btn">Elimina</button>
+        </div>
+      </li>
+    </ul>
+  
+    <p *ngIf="categories.length === 0">Nessuna categoria disponibile.</p>
+  
+  </div>
+  
