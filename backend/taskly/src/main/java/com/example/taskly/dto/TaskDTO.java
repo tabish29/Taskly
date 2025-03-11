@@ -1,13 +1,13 @@
 package com.example.taskly.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class TaskDTO {
     private Long id;
     private String title;
     private String description;
     private Boolean completed;
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     public Long getId() {
         return id;
@@ -41,11 +41,11 @@ public class TaskDTO {
         this.completed = completed;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 }

@@ -2,7 +2,8 @@ package com.example.taskly.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -25,7 +26,7 @@ public class TaskEntity {
     private Boolean completed;
 
     @Column(name = "duedate", nullable = false)
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     @ManyToMany
     @JoinTable(
