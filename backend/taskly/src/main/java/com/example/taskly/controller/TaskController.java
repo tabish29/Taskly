@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -47,9 +49,15 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return ResponseEntity.ok("Task ID " + id + " eliminata con successo");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Task con ID " + id + " eliminata con successo");
+        response.put("taskId", String.valueOf(id));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @GetMapping("/completed/{completed}")

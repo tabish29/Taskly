@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -48,9 +50,16 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Categoria ID " + id + " eliminata con successo");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Categoria eliminata con successo");
+        response.put("categoryId", String.valueOf(id));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
 }
