@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateTaskDialogComponent } from './create-task-dialog/create-task-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dialog.component';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/Category';
 
 @Component({
   selector: 'app-task',
@@ -14,14 +16,17 @@ import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dial
 export class TaskComponent {
 
   tasks: Task[] = [];
+  categories: Category[] = [];
   filteredTasks: Task[] = [];
   newTask: Task = new Task(0, '', '', false, '', []); 
   filterStatus: string = '';
+  selectedCategory: number | null = null;
 
-  constructor(private taskService: TaskService,private dialog: MatDialog,private snackBar: MatSnackBar) {}
+  constructor(private taskService: TaskService,private categoryService: CategoryService,private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadTasks();
+    this.loadCategories();
   }
 
   showErrorSnackbar(message: any): void {
@@ -42,6 +47,12 @@ export class TaskComponent {
         console.log(error.error.message)
       }
     );
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
   createTask(): void {
@@ -148,6 +159,16 @@ export class TaskComponent {
       this.filteredTasks = this.tasks.filter(task => !task.completed);
     } else {
       this.filteredTasks = [...this.tasks]; 
+    }
+  }
+
+  filterTasksByCategory(): void {
+    if (this.selectedCategory) {
+      this.filteredTasks = this.tasks.filter(task => 
+        task.categories?.some(category => category.id === this.selectedCategory)
+      );
+    } else {
+      this.filteredTasks = [...this.tasks];
     }
   }
 

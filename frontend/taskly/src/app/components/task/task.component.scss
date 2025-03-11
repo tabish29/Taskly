@@ -105,6 +105,16 @@
     display: flex;
     gap: 10px;  
   }
+
+  .filter-container {
+    display: flex;
+    gap: 20px; 
+    align-items: center;
+  }
+  
+  mat-form-field {
+    flex: 1; 
+  }
   
   @media (max-width: 768px) {
     .task-list {
