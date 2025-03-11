@@ -17,6 +17,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TaskComponent } from './components/task/task.component';
 import { CreateTaskDialogComponent } from './components/task/create-task-dialog/create-task-dialog.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CreateTaskDialogComponent } from './components/task/create-task-dialog/
     CategoryComponent,
     NotFoundComponent,
     TaskComponent,
-    CreateTaskDialogComponent
+    CreateTaskDialogComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,

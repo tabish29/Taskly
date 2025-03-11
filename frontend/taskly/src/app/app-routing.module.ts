@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryComponent } from './components/category/category.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { TaskComponent } from './components/task/task.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'tasks',
     component: TaskComponent
+  },
+  { 
+    path: '',
+     component: HomePageComponent 
   },
   {
     path: '**',
