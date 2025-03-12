@@ -103,6 +103,12 @@ public class TaskController {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Errore durante la rimozione della categoria dalla task");
             response.put("error", e.getMessage());
+
+            if (e instanceof org.springframework.dao.DataIntegrityViolationException) {
+                response.put("error", "Violazione del vincolo di integrità dei dati: " + e.getMessage());
+            } else if (e instanceof org.springframework.web.client.HttpServerErrorException) {
+                response.put("error", "Errore del server: " + e.getMessage());
+            }
             
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)

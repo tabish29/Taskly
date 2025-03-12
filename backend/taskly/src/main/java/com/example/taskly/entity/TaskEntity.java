@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Getter
