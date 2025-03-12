@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Getter
 @Setter
@@ -34,6 +37,7 @@ public class TaskEntity {
             joinColumns = @JoinColumn(name = "attivita_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
+    @JsonManagedReference
     private List<CategoryEntity> categories;
 
 }

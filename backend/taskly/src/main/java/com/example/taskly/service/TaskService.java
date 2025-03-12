@@ -108,8 +108,6 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-
-
     public void removeCategoryFromTask(Long taskId, Long categoryId) {
         TaskEntity task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task non trovata con ID: " + taskId));
@@ -121,5 +119,29 @@ public class TaskService {
 
         taskRepository.save(task);
     }
+
+    public List<CategoryEntity> getCategoriesForTask(Long taskId) {
+        TaskEntity task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task non trovato con ID: " + taskId));
+
+        // Stampa le informazioni della task
+        System.out.println("Task trovata: ");
+        System.out.println("ID: " + task.getId());
+        System.out.println("Titolo: " + task.getTitle());
+        System.out.println("Descrizione: " + task.getDescription());
+        System.out.println("Completato: " + task.getCompleted());
+        System.out.println("Scadenza: " + task.getDueDate());
+        // Stampa le categorie associate alla task
+        System.out.println("Categorie associate: ");
+        if (task.getCategories() != null && !task.getCategories().isEmpty()) {
+            for (CategoryEntity category : task.getCategories()) {
+                System.out.println("ID Categoria: " + category.getId() + ", Nome: " + category.getName());
+            }
+        } else {
+            System.out.println("Nessuna categoria associata.");
+        }
+        return task.getCategories();
+    }
+    
 
 }

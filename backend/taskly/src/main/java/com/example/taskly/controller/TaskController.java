@@ -1,6 +1,7 @@
 package com.example.taskly.controller;
 
 import com.example.taskly.dto.TaskDTO;
+import com.example.taskly.entity.CategoryEntity;
 import com.example.taskly.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,22 +68,53 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/categories")
-    public ResponseEntity<String> addCategoriesToTask(@PathVariable("taskId") Long taskId,
-                                                      @RequestBody List<Long> categoryIds) {
-            taskService.addCategoriesToTask(taskId, categoryIds);
-            return ResponseEntity.ok("Categorie aggiunte correttamente alla task con ID " + taskId);
-
+    public ResponseEntity<Map<String, String>> addCategoriesToTask(
+            @PathVariable("taskId") Long taskId,
+            @RequestBody List<Long> categoryIds) {
+    
+        taskService.addCategoriesToTask(taskId, categoryIds);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Categorie aggiunte correttamente alla task con ID " + taskId);
+        response.put("taskId", String.valueOf(taskId));
+        response.put("categoryIds", categoryIds.toString());
+    
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
+    
 
     @DeleteMapping("/{taskId}/categories/{categoryId}")
-    public ResponseEntity<String> removeCategoryFromTask(@PathVariable("taskId") Long taskId,
-                                                         @PathVariable("categoryId") Long categoryId) {
+    public ResponseEntity<Map<String, String>> removeCategoryFromTask(
+            @PathVariable("taskId") Long taskId,
+            @PathVariable("categoryId") Long categoryId) {
+        
         try {
             taskService.removeCategoryFromTask(taskId, categoryId);
-            return ResponseEntity.ok("Categoria con ID " + categoryId + " rimossa dalla task con ID " + taskId);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Categoria con ID " + categoryId + " rimossa dalla task con ID " + taskId);
+            response.put("taskId", String.valueOf(taskId));
+            response.put("removedCategoryId", String.valueOf(categoryId));
+            
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore durante la rimozione della categoria dalla task");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Errore durante la rimozione della categoria dalla task");
+            response.put("error", e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         }
     }
+
+    @GetMapping("/{taskId}/categories")
+    public ResponseEntity<List<CategoryEntity>> getCategoriesForTask(@PathVariable("taskId") Long taskId) {
+        List<CategoryEntity> categories = taskService.getCategoriesForTask(taskId);
+        return ResponseEntity.ok(categories);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.example.taskly.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Getter
@@ -18,6 +19,7 @@ public class CategoryEntity {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonBackReference
     private List<TaskEntity> tasks;
 
 }
