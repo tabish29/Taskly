@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Category } from '../../../models/Category';
+import { CategoryService } from '../../../services/category.service';
 
 
 @Component({
@@ -14,10 +15,18 @@ export class CreateTaskDialogComponent {
     title: '',
     description: '',
     dueDate: '',
-    completed: false
+    completed: false,
+    categoryIds: [] as number[]
   };
 
-  constructor(public dialogRef: MatDialogRef<CreateTaskDialogComponent>) {}
+  categories: Category[] = [];
+
+  constructor(public dialogRef: MatDialogRef<CreateTaskDialogComponent>,  private categoryService: CategoryService) {}
+
+
+  ngOnInit(): void {
+    this.loadCategories();
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -25,6 +34,12 @@ export class CreateTaskDialogComponent {
 
   saveTask(): void {
     this.dialogRef.close(this.task);
+  }
+
+  loadCategories() {
+    this.categoryService.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
   }
 
 }

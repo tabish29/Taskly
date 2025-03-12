@@ -15,6 +15,15 @@
     <input matInput type="date" [(ngModel)]="task.dueDate">
   </mat-form-field>
 
+  <mat-form-field class="full-width">
+    <mat-label>Seleziona Categorie</mat-label>
+    <mat-select [(ngModel)]="task.categoryIds" multiple>
+      <mat-option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </div>
 
 <div mat-dialog-actions>

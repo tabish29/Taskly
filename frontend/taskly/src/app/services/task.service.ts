@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Task } from '../models/Task';
 import { Observable } from 'rxjs';
+import { Category } from '../models/Category';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class TaskService {
   
   removeCategoryFromTask(taskId: number, categoryId: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${taskId}/categories/${categoryId}`);
+  }
+
+  getCategoriesForTask(taskId: number): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}/${taskId}/categories`);
   }
   
 }

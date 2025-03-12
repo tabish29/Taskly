@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateTaskDialogComponent } from './update-task-dialog/update-task-dialog.component';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/Category';
+import { forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -38,13 +39,23 @@ export class TaskComponent {
 
   loadTasks(): void {
     this.taskService.getAllTasks().subscribe(
-      (data) => {
-        this.tasks = data;
-        this.applyFilter();
+      (tasks) => {
+        const taskCategoryRequests = tasks.map(task => 
+          this.taskService.getCategoriesForTask(task.id).pipe(
+            map((categories: Category[]) => {
+              task.categories = categories; 
+            })
+          )
+        );
+  
+        forkJoin(taskCategoryRequests).subscribe(() => {
+          this.tasks = tasks; 
+          this.applyFilter(); 
+        });
       },
       (error) => {
         console.error('Errore nel caricamento dei task', error);
-        console.log(error.error.message)
+        console.log(error.error.message);
       }
     );
   }
@@ -98,7 +109,7 @@ export class TaskComponent {
         console.log(response);
       },
       (error) => {
-        console.error('Errore nell\'addizione delle categorie', error);
+        console.error('Errore nell\'aggiunta delle categorie', error);
       }
     );
   }
@@ -124,17 +135,37 @@ export class TaskComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        
         this.taskService.createTask(result).subscribe(
           (response) => {
             console.log('Task aggiunta con successo', response);
-            this.loadTasks();
+        
+            // Verifica se ci sono categorie selezionate 
+            if (result.categoryIds && result.categoryIds.length > 0) {
+              this.taskService.addCategoriesToTask(response.id, result.categoryIds).subscribe(
+                () => {
+                  console.log('Categorie assegnate alla task con successo',result.categoryIds);
+                  this.loadTasks();  
+                },
+                (error) => {
+                  console.error('Errore durante l\'assegnazione delle categorie', error);
+                  this.showErrorSnackbar(error.error.message);
+                }
+              );
+            } else {
+              this.loadTasks();
+            }
+
           },
           (error) => {
             console.error('Errore durante l\'aggiunta della task', error);
-            this.showErrorSnackbar(error.error.message)
+            this.showErrorSnackbar(error.error.message);
           }
         );
+      } else{
+        console.log("Non sono state inviate le informazioni relative all'attività");
       }
+
     });
   }
 
@@ -147,29 +178,57 @@ export class TaskComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateTask(result);
+        const { updatedTask, categoriesToAdd, categoriesToRemove } = result;
+
+        if (categoriesToRemove.length > 0) {
+          categoriesToRemove.forEach((categoryId: number) => {
+            console.log("categoria che sto cercando di rimuovere", categoryId);
+            this.taskService.removeCategoryFromTask(updatedTask.id, categoryId).subscribe(
+              () => {
+                console.log('Categoria rimossa con successo',categoryId);
+              },
+              (error) => {
+                console.error('Errore durante la rimozione della categoria', error);
+              }
+            );
+          });
+        }
+  
+        if (categoriesToAdd.length > 0) {
+          this.taskService.addCategoriesToTask(updatedTask.id, categoriesToAdd).subscribe(
+            () => {
+              console.log('Categorie aggiunte con successo', categoriesToAdd);
+            },
+            (error) => {
+              console.error('Errore durante l\'aggiunta delle categorie', error);
+            }
+          );
+        }
+  
+        
+  
+        this.updateTask(updatedTask);              
       }
     });
   }
 
   applyFilter(): void {
+    let filteredTasks = [...this.tasks]; 
+  
     if (this.filterStatus === 'completed') {
-      this.filteredTasks = this.tasks.filter(task => task.completed);
+      filteredTasks = filteredTasks.filter(task => task.completed);
     } else if (this.filterStatus === 'not-completed') {
-      this.filteredTasks = this.tasks.filter(task => !task.completed);
-    } else {
-      this.filteredTasks = [...this.tasks]; 
+      filteredTasks = filteredTasks.filter(task => !task.completed);
     }
-  }
-
-  filterTasksByCategory(): void {
+  
     if (this.selectedCategory) {
-      this.filteredTasks = this.tasks.filter(task => 
+      filteredTasks = filteredTasks.filter(task => 
         task.categories?.some(category => category.id === this.selectedCategory)
       );
-    } else {
-      this.filteredTasks = [...this.tasks];
     }
+  
+    this.filteredTasks = filteredTasks;
   }
+
 
 }

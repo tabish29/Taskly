@@ -18,7 +18,7 @@
      
         <mat-form-field >
           <mat-label>Filtra per categoria</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterTasksByCategory()">
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilter()">
             <mat-option [value]="null">--</mat-option>
             <mat-option *ngFor="let category of categories" [value]="category.id">
               {{ category.name }}
@@ -34,6 +34,16 @@
           <p>{{ task.description }}</p>
           <p><strong>Scadenza:</strong> {{ task.dueDate | date:'dd/MM/yyyy' }}</p>
           <p><strong>Completato:</strong> {{ task.completed ? 'Sì' : 'No' }}</p>
+        </div>
+
+
+        <div *ngIf="task.categories.length > 0">
+          <p><strong>Categorie Associate:</strong></p>
+          <div class="category-list">
+            <div class="category-block" *ngFor="let category of task.categories">
+              <span>{{ category.name }}</span>
+            </div>
+          </div>
         </div>
   
         <div class="actions">

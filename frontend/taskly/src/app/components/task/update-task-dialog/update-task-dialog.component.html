@@ -1,4 +1,5 @@
 <h2 mat-dialog-title>Aggiorna Attività</h2>
+
 <div mat-dialog-content>
   <form [formGroup]="taskForm">
     <mat-form-field class="full-width">
@@ -17,6 +18,21 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="completed">Completato</mat-checkbox>
+
+    <!-- Sezione per le categorie -->
+    <mat-form-field class="full-width">
+      <mat-label>Seleziona Categorie</mat-label>
+      <mat-select formControlName="categoryIds" multiple>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          <span [ngClass]="{
+            'selected-category': selectedCategories.includes(category.id),
+            'unselected-category': !selectedCategories.includes(category.id)
+          }">
+            {{ category.name }}
+          </span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
 </div>
 
