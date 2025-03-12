@@ -3,9 +3,14 @@ package com.example.taskly.controller;
 import com.example.taskly.dto.TaskDTO;
 import com.example.taskly.entity.CategoryEntity;
 import com.example.taskly.service.TaskService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
@@ -14,6 +19,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/tasks")
+@Validated
 public class TaskController {
 
     private final TaskService taskService;
@@ -36,9 +42,23 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
-        TaskDTO createdTask = taskService.createTask(taskDTO);
-        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
+    public ResponseEntity<?> createTask(@Valid @RequestBody TaskDTO task, BindingResult result) {
+
+       
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        
+        if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Il titolo non può essere vuoto");
+
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+        }
+
+        return ResponseEntity.ok(taskService.createTask(task));
     }
 
     @PutMapping("/{id}")

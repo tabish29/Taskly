@@ -1,6 +1,8 @@
 package com.example.taskly.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,6 +21,8 @@ public class TaskEntity {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Il titolo non può essere vuoto")
+    @NotEmpty(message = "Il titolo non può essere vuoto")
     private String title;
 
     @Column(nullable = false)

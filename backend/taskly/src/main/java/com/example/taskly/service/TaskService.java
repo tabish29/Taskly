@@ -28,10 +28,6 @@ public class TaskService {
     private TaskMapper taskMapper;
 
     public TaskDTO createTask(TaskDTO taskDTO) {
-        if (taskDTO.getTitle() == null || taskDTO.getTitle().trim().isEmpty()) {
-            throw new InvalidRequestException("Il titolo della task non può essere vuoto");
-        }
-
         try {
             TaskEntity taskEntity = taskMapper.taskDTOToTaskEntity(taskDTO);
             TaskEntity savedTask = taskRepository.save(taskEntity);
