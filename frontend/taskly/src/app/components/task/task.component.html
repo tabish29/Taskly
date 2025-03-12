@@ -2,7 +2,7 @@
     <h2>Gestisci Attività</h2>
   
     <div class="task-actions">
-      <button (click)="openDialog()" class="add-btn">Crea Nuovo Task</button>
+      <button (click)="openDialog()" class="add-btn">Crea Nuova Attività</button>
     </div>
     
     <div class="filter-container">
@@ -10,8 +10,8 @@
             <mat-label>Filtro per Stato</mat-label>
             <mat-select [(ngModel)]="filterStatus" (selectionChange)="applyFilter()">
               <mat-option value="">Tutte</mat-option>
-              <mat-option value="completed">Completato</mat-option>
-              <mat-option value="not-completed">Non Completato</mat-option>
+              <mat-option value="completed">Completata</mat-option>
+              <mat-option value="not-completed">Non Completata</mat-option>
             </mat-select>
          </mat-form-field>
 
