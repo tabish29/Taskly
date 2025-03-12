@@ -2,7 +2,7 @@
     <h2>Gestisci Attività</h2>
   
     <div class="task-actions">
-      <button mat-raised-button color="primary" (click)="openDialog()">Crea Nuovo Task</button>
+      <button (click)="openDialog()" class="add-btn">Crea Nuovo Task</button>
     </div>
     
     <div class="filter-container">
@@ -32,7 +32,7 @@
         <div class="task-details">
           <h3>{{ task.title }}</h3>
           <p>{{ task.description }}</p>
-          <p><strong>Scadenza:</strong> {{ task.dueDate | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Scadenza:</strong> {{ task.dueDate ? (task.dueDate | date:'dd/MM/yyyy') : 'Nessuna Scadenza' }}</p>
           <p><strong>Completato:</strong> {{ task.completed ? 'Sì' : 'No' }}</p>
         </div>
 
@@ -47,8 +47,8 @@
         </div>
   
         <div class="actions">
-          <button mat-raised-button color="warn" (click)="openUpdateDialog(task)">Aggiorna</button>
-          <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Elimina</button>
+          <button  (click)="openUpdateDialog(task)" class="edit-btn">Aggiorna</button>
+          <button  (click)="deleteTask(task.id)" class="delete-btn">Elimina</button>
         </div>
       </div>
     </div>
